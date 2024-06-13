@@ -1,0 +1,76 @@
+Sub ConvertAllLinkedImagesToEmbedded()
+    Dim folderPath As String
+    
+    ' 弹出选择文件夹对话框
+    folderPath = SelectFolder("请选择要处理的文件夹")
+    
+    If folderPath <> "" Then
+        ' 遍历文件夹并处理文件
+        ProcessFolder folderPath
+        MsgBox "所有文件已处理完成", vbInformation
+    Else
+        MsgBox "未选择任何文件夹", vbExclamation
+    End If
+End Sub
+
+Function SelectFolder(prompt As String) As String
+    Dim shellApp As Object
+    Set shellApp = CreateObject("Shell.Application").BrowseForFolder(0, prompt, 0, 0)
+    
+    If Not shellApp Is Nothing Then
+        SelectFolder = shellApp.Items.Item.Path
+    Else
+        SelectFolder = ""
+    End If
+End Function
+
+Sub ProcessFolder(folderPath As String)
+    Dim fileSystem As Object
+    Dim folder As Object
+    Dim file As Object
+    
+    ' 创建文件系统对象
+    Set fileSystem = CreateObject("Scripting.FileSystemObject")
+    Set folder = fileSystem.GetFolder(folderPath)
+    
+    ' 遍历文件
+    For Each file In folder.Files
+        If LCase(fileSystem.GetExtensionName(file.Name)) = "doc" Then
+            ProcessFile file.Path
+        End If
+    Next file
+    
+    ' 遍历子文件夹
+    For Each subFolder In folder.SubFolders
+        ProcessFolder subFolder.Path
+    Next subFolder
+End Sub
+
+Sub ProcessFile(filePath As String)
+    Dim doc As Document
+    On Error Resume Next
+    Set doc = Documents.Open(filePath)
+    
+    If Not doc Is Nothing Then
+        ConvertLinkedImagesToEmbedded doc
+        
+        ' 保存为 .docx 文件
+        Dim newFilePath As String
+        newFilePath = Replace(filePath, ".doc", ".docx")
+        doc.SaveAs2 FileName:=newFilePath, FileFormat:=wdFormatXMLDocument
+        doc.Close SaveChanges:=False
+    End If
+    On Error GoTo 0
+End Sub
+
+Sub ConvertLinkedImagesToEmbedded(doc As Document)
+    Dim xIShape As InlineShape
+    For Each xIShape In doc.InlineShapes
+        With xIShape
+            If .Type = wdInlineShapeLinkedPicture Then
+                .LinkFormat.SavePictureWithDocument = True
+                .LinkFormat.BreakLink
+            End If
+        End With
+    Next xIShape
+End Sub
