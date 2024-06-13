@@ -1,10 +1,9 @@
-# -Word-
-将Word 文档中的链接的图像转换为嵌入的图片；
-convert all linked images to embedded in Word document
+#将Word 文档中的链接的图像转换为嵌入的图片；
+#convert all linked images to embedded in Word document
 
-注意！！！！！使用前请务必先备份文件，以免发生意外，产生损失。
+#注意！！！！！使用前请务必先备份文件，以免发生意外，产生损失。
 
-VBA代码保存在txt文件中
+#VBA代码保存在txt文件中
 
 修改自：https://www.extendoffice.com/documents/word/5423-word-convert-linked-image-to-embedded.html
 
