@@ -2,7 +2,9 @@
 #convert all linked images to embedded in Word document
 
 #注意！！！！！使用前请务必先备份文件，以免发生意外，产生损失。
+
 #新增"将链接图片转换为嵌入式.docm"文件，使用word打开自动运行宏,可以选择只单处理一个doc/docx文件或者批量处理一个文件下所有doc/docx文件，处理后全保存为docx文件。
+
 ＃以下为原方法
 
 VBA代码保存在txt文件中
