@@ -2,7 +2,7 @@
 #convert all linked images to embedded in Word document
 
 #注意！！！！！使用前请务必先备份文件，以免发生意外，产生损失。
-
+#新增"将链接图片转换为嵌入式.docm"文件，使用word打开自动运行宏
 #VBA代码保存在txt文件中
 
 修改自：https://www.extendoffice.com/documents/word/5423-word-convert-linked-image-to-embedded.html
